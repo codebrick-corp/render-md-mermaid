@@ -53,7 +53,7 @@ IFS=$'\n'
 for line in $(perl -0777 -ne 'while(m/!\[.*?\]\(([^\)]+)\)\n+<details>([\s\S]*?)```mermaid\n([\s\S]*?)\n```/g){print "$1\n$3\n";} ' "$markdown_input")
 do
     if [[ $line =~ $image_re ]]; then
-        mermaid_file="$line.mermaid"
+        mermaid_file=$(echo "$line.mermaid" | sed 's/^[^/]*\///g')
         if [[ ! "$mermaid_file" =~ ^.*/.* ]]; then
             mermaid_file="./$mermaid_file"
         fi
